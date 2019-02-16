@@ -91,13 +91,161 @@ public class LawlorCraigTestTask1 {
 		new Rate(CarParkKind.valueOf("SUPER-HERO"), new BigDecimal(5), new BigDecimal(3), reducedPeriodList, normalPeriodList );
 	}
 	
-	/*// Rate(staff, 5, 3,  [(9, 13), (19, 22)], [(12, 18), (0, 8)])
 	// Test Case 13
 	@org.junit.Test(expected = IllegalArgumentException.class)
 	public void reducedOverlapsNormalPeriod() {		
+		ArrayList<Period> alternateReducedPeriod = new ArrayList<Period>();
 		
+		alternateReducedPeriod.add(new Period(9, 13));
+		alternateReducedPeriod.add(new Period(19, 22));
 		
-		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), ist, normalPeriodList );
-	}*/
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), alternateReducedPeriod, normalPeriodList );
+	}
+	
+	// Test Case 14
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void normalOverlapsReducedPeriod() {		
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+		
+		alternateNormalPeriod.add(new Period(12, 20));
+		alternateNormalPeriod.add(new Period(0, 8));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
+	}
+	
+	// Test Case 15
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void reducedPeriodsOverlap() {		
+		ArrayList<Period> alternateReducedPeriod = new ArrayList<Period>();
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+		
+		alternateReducedPeriod.add(new Period(16, 19));
+		alternateReducedPeriod.add(new Period(18, 22));
+		alternateNormalPeriod.add(new Period(12, 15));
+		alternateNormalPeriod.add(new Period(0, 8));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), alternateReducedPeriod, alternateNormalPeriod );
+	}
+	
+	// Test Case 16
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void normalPeriodsOverlap() {		
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+
+		alternateNormalPeriod.add(new Period(12, 16));
+		alternateNormalPeriod.add(new Period(15, 18));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
+	}
+	
+	// Test Case 17
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void negativeReducedPeriod() {		
+		ArrayList<Period> alternateReducedPeriod = new ArrayList<Period>();
+		
+		alternateReducedPeriod.add(new Period(-1, 11));
+		alternateReducedPeriod.add(new Period(19, 22));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), alternateReducedPeriod, normalPeriodList );
+	}
+	
+	// Test Case 18
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void reducedPeriodEqualTo24() {		
+		ArrayList<Period> alternateReducedPeriod = new ArrayList<Period>();
+		
+		alternateReducedPeriod.add(new Period(9, 11));
+		alternateReducedPeriod.add(new Period(19, 24));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), alternateReducedPeriod, normalPeriodList );
+	}
+	
+	// Test Case 19
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void reducedPeriodGreaterThan24() {		
+		ArrayList<Period> alternateReducedPeriod = new ArrayList<Period>();
+		
+		alternateReducedPeriod.add(new Period(9, 11));
+		alternateReducedPeriod.add(new Period(19, 25));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), alternateReducedPeriod, normalPeriodList );
+	}
+	
+	// Test Case 20
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void reducedPeriodIsLetter() {		
+		ArrayList<Period> alternateReducedPeriod = new ArrayList<Period>();
+		
+		alternateReducedPeriod.add(new Period(9, 11));
+		alternateReducedPeriod.add(new Period('s', 22));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), alternateReducedPeriod, normalPeriodList );
+	}
+	
+	// Test Case 21
+	@org.junit.Test
+	public void reducedPeriodEqualTo23() {
+		ArrayList<Period> alternateReducedPeriod = new ArrayList<Period>();
+		
+		alternateReducedPeriod.add(new Period(9, 11));
+		alternateReducedPeriod.add(new Period(19, 23));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), alternateReducedPeriod, normalPeriodList );
+	}
+	
+	// Test Case 22 
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void negativeNormalPeriod() {		
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+
+		alternateNormalPeriod.add(new Period(-1, 18));
+		alternateNormalPeriod.add(new Period(0, 8));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
+	}
+	
+	// Test Case 23 
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void normalPeriodEqualTo24() {		
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+
+		alternateNormalPeriod.add(new Period(12, 18));
+		alternateNormalPeriod.add(new Period(24, 8));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
+	}
+	
+	// Test Case 24 
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void normalPeriodGreaterThan24() {		
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+
+		alternateNormalPeriod.add(new Period(12, 18));
+		alternateNormalPeriod.add(new Period(25, 8));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
+	}
+	
+	// Test Case 25    
+	@org.junit.Test
+	public void normalPeriodEqualTo23() {		
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+
+		alternateNormalPeriod.add(new Period(12, 18));
+		alternateNormalPeriod.add(new Period(23, 8));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
+	}
+	
+	// Test Case 26   
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void normalPeriodIsLetter() {		
+		ArrayList<Period> alternateNormalPeriod = new ArrayList<Period>();
+
+		alternateNormalPeriod.add(new Period('t', 18));
+		alternateNormalPeriod.add(new Period(0, 8));
+		
+		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
+	}
 	
 }
