@@ -3,6 +3,8 @@
 	Date: February 11 2019
 	Description: A test case for the verification project - Software Engineering
 */
+import static org.junit.Assert.assertEquals;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -248,4 +250,54 @@ public class LawlorCraigTestTask1 {
 		new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, alternateNormalPeriod );
 	}
 	
+	// Calculation tests begin here
+	
+	// Test Case 27
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void negativePeriod() {		
+		
+		new Rate().calculate(new Period(-1, 18));
+	}
+	
+	// Test Case 28
+	@org.junit.Test
+	public void periodEqualTo0() {		
+		
+		assertEquals(new BigDecimal(15) ,new Rate().calculate(new Period(0, 18)));
+	}
+	
+	// Test Case 29
+	@org.junit.Test
+	public void periodEqualTo7() {		
+		
+		assertEquals(new BigDecimal(15) ,new Rate().calculate(new Period(7, 18)));
+	}
+	
+	// Test Case 30
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void periodGreaterThan24() {		
+		
+		new Rate().calculate(new Period(7, 25));
+	}
+	
+	// Test Case 31
+	@org.junit.Test(expected = IllegalArgumentException.class)
+	public void periodEqualTo24() {		
+		
+		new Rate().calculate(new Period(7, 24));
+	}
+	
+	// Test Case 32
+	@org.junit.Test
+	public void periodEqualTo23() {		
+		
+		assertEquals(new BigDecimal(15) ,new Rate().calculate(new Period(7, 23)));
+	}
+	
+	// Test Case 33
+		@org.junit.Test(expected = IllegalArgumentException.class)
+		public void periodEqualTo57() {		
+			
+			new Rate().calculate(new Period(7, 57));
+		}
 }
