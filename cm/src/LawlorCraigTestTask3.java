@@ -5,6 +5,7 @@
 */
 import org.junit.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -293,14 +294,6 @@ public class LawlorCraigTestTask3 {
         new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), manyReducedPeriodsList, manyNormalPeriodsList);
     }
 
-    // Test the calculate method properly
-    @org.junit.Test
-    public void calcTest() {
-        Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, normalPeriodList);
-
-        assertEquals(new BigDecimal(6), rate.calculate(new Period(9, 11)));
-    }
-
     // Tests for the change in spec //
 
     // Testing for result before discount, expects error
@@ -308,7 +301,7 @@ public class LawlorCraigTestTask3 {
     public void visitorWithoutDiscountApplied() {
         Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(6), rate.calculate(new Period(9, 11))); //
+        assertEquals(new BigDecimal(6.00), rate.calculate(new Period(9, 11))); //
     }
 
     // Testing rate under 8 for Visitor
@@ -317,7 +310,7 @@ public class LawlorCraigTestTask3 {
 
         Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(0), rate.calculate(new Period(9, 11))); //
+        assertEquals(new BigDecimal(0.00), rate.calculate(new Period(9, 11)));
     }
 
     // Testing rate over 8 for visitor
@@ -325,7 +318,7 @@ public class LawlorCraigTestTask3 {
     public void visitorOver8() {
         Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(5), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(2), rate.calculate(new Period(9, 11)));
+        assertEquals(new BigDecimal(1.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(9, 11)));
     }
 
     // Testing management without the discount, expected fail
@@ -333,7 +326,7 @@ public class LawlorCraigTestTask3 {
     public void managementMinimumPaymentNotApplied() {
         Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(5), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(0), rate.calculate(new Period(22, 23)));
+        assertEquals(new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(22, 23)));
     }
 
     // Testing management with the discount
@@ -341,7 +334,7 @@ public class LawlorCraigTestTask3 {
     public void managementMinimumPaymentFreePeriod() {
         Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(3), rate.calculate(new Period(22, 23)));
+        assertEquals(new BigDecimal(3.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(22, 23)));
     }
 
     // Testing management with the discount on a normal period
@@ -349,7 +342,7 @@ public class LawlorCraigTestTask3 {
     public void managementMinimumPaymentNormalPeriod() {
         Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(15), rate.calculate(new Period(13, 15)));
+        assertEquals(new BigDecimal(12.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(13, 15)));
     }
 
     // Testing management with the discount on a reduced period
@@ -357,7 +350,7 @@ public class LawlorCraigTestTask3 {
     public void managementMinimumPaymentReducedPeriod() {
         Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(9), rate.calculate(new Period(20, 22)));
+        assertEquals(new BigDecimal(6.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(20, 22)));
     }
 
     // Testing management with the discount on a combined normal and reduced period
@@ -365,7 +358,7 @@ public class LawlorCraigTestTask3 {
     public void managementMinimumPaymentCombinedPeriod() {
         Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(12), rate.calculate(new Period(17, 20)));
+        assertEquals(new BigDecimal(9.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(17, 20)));
     }
 
     // Testing student discount under 5.50
@@ -373,7 +366,7 @@ public class LawlorCraigTestTask3 {
     public void studentUnderDiscount() {
         Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(3), rate.calculate(new Period(9, 10)));
+        assertEquals(new BigDecimal(3.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(9, 10)));
     }
 
     // Testing student discount under 5.50 with 25% reduction applied, expected fail
@@ -381,7 +374,7 @@ public class LawlorCraigTestTask3 {
     public void studentUnderDiscountWithReduction() {
         Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(2.25), rate.calculate(new Period(9, 10)));
+        assertEquals(new BigDecimal(2.25).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(9, 10)));
     }
 
     // Testing student discount over 5.50
@@ -389,7 +382,7 @@ public class LawlorCraigTestTask3 {
     public void studentOverDiscount() {
         Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(14.875), rate.calculate(new Period(1, 4)));
+        assertEquals(new BigDecimal(10.38).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(1, 3)));
     }
 
     // Testing student discount over 5.50 without reduction applied, expected fail
@@ -397,7 +390,7 @@ public class LawlorCraigTestTask3 {
     public void studentOverDiscountWithoutReduction() {
         Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(18), rate.calculate(new Period(1, 4)));
+        assertEquals(new BigDecimal(18.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(1, 4)));
     }
 
     // Testing under staff max limit
@@ -405,7 +398,7 @@ public class LawlorCraigTestTask3 {
     public void underStaffMaxLimit() {
         Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(12), rate.calculate(new Period(1, 3)));
+        assertEquals(new BigDecimal(12.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(1, 3)));
     }
 
     // Testing under staff max limit with limit applied
@@ -413,7 +406,7 @@ public class LawlorCraigTestTask3 {
     public void overStaffMaxLimit() {
         Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(16), rate.calculate(new Period(1, 5)));
+        assertEquals(new BigDecimal(16.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(1, 5)));
     }
 
     // Testing under staff max limit without limit applied, expected fail
@@ -421,7 +414,7 @@ public class LawlorCraigTestTask3 {
     public void overStaffMaxLimitWithoutLimit() {
         Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(24), rate.calculate(new Period(1, 5)));
+        assertEquals(new BigDecimal(24.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(1, 5)));
     }
 
 }
