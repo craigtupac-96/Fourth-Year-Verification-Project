@@ -310,7 +310,7 @@ public class LawlorCraigTestTask3 {
 
         Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(0.00), rate.calculate(new Period(9, 11)));
+        assertEquals(new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP), rate.calculate(new Period(9, 11)));
     }
 
     // Testing rate over 8 for visitor
