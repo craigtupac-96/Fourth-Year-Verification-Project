@@ -302,11 +302,22 @@ public class LawlorCraigTestTask3 {
     }
 
     // Tests for the change in spec
-    @org.junit.Test
-    public void one() {
-        Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
-        assertEquals(new BigDecimal(6), rate.calculate(new Period(9, 11)));
+    // Testing rate under 8 for Visitor
+    @org.junit.Test
+    public void visitorUnder8() {
+
+        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(5), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+
+        assertEquals(new BigDecimal(0), rate.calculate(new Period(9, 11))); // 
+    }
+
+    // Testing rate over 8 for visitor
+    @org.junit.Test
+    public void visitorOver8() {
+        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(5), reducedPeriodList, normalPeriodList);
+
+        assertEquals(new BigDecimal(2), rate.calculate(new Period(9, 11)));
     }
 
 }
