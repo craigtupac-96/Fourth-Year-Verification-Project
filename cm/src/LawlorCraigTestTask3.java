@@ -331,7 +331,7 @@ public class LawlorCraigTestTask3 {
     // Testing management without the discount, expected fail
     @org.junit.Test(expected = AssertionError.class)
     public void managementMinimumPaymentNotApplied() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(5), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(5), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(0), rate.calculate(new Period(22, 23)));
     }
@@ -339,7 +339,7 @@ public class LawlorCraigTestTask3 {
     // Testing management with the discount
     @org.junit.Test
     public void managementMinimumPaymentFreePeriod() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(3), rate.calculate(new Period(22, 23)));
     }
@@ -347,7 +347,7 @@ public class LawlorCraigTestTask3 {
     // Testing management with the discount on a normal period
     @org.junit.Test
     public void managementMinimumPaymentNormalPeriod() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(15), rate.calculate(new Period(13, 15)));
     }
@@ -355,7 +355,7 @@ public class LawlorCraigTestTask3 {
     // Testing management with the discount on a reduced period
     @org.junit.Test
     public void managementMinimumPaymentReducedPeriod() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(9), rate.calculate(new Period(20, 22)));
     }
@@ -363,7 +363,7 @@ public class LawlorCraigTestTask3 {
     // Testing management with the discount on a combined normal and reduced period
     @org.junit.Test
     public void managementMinimumPaymentCombinedPeriod() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.MANAGEMENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(12), rate.calculate(new Period(17, 20)));
     }
@@ -371,7 +371,7 @@ public class LawlorCraigTestTask3 {
     // Testing student discount under 5.50
     @org.junit.Test
     public void studentUnderDiscount() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(3), rate.calculate(new Period(9, 10)));
     }
@@ -379,7 +379,7 @@ public class LawlorCraigTestTask3 {
     // Testing student discount under 5.50 with 25% reduction applied, expected fail
     @org.junit.Test(expected = AssertionError.class)
     public void studentUnderDiscountWithReduction() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(2.25), rate.calculate(new Period(9, 10)));
     }
@@ -387,7 +387,7 @@ public class LawlorCraigTestTask3 {
     // Testing student discount over 5.50
     @org.junit.Test
     public void studentOverDiscount() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(14.875), rate.calculate(new Period(1, 4)));
     }
@@ -395,7 +395,7 @@ public class LawlorCraigTestTask3 {
     // Testing student discount over 5.50 without reduction applied, expected fail
     @org.junit.Test(expected = AssertionError.class)
     public void studentOverDiscountWithoutReduction() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.STUDENT, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(18), rate.calculate(new Period(1, 4)));
     }
@@ -403,7 +403,7 @@ public class LawlorCraigTestTask3 {
     // Testing under staff max limit
     @org.junit.Test
     public void underStaffMaxLimit() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(12), rate.calculate(new Period(1, 3)));
     }
@@ -411,7 +411,7 @@ public class LawlorCraigTestTask3 {
     // Testing under staff max limit with limit applied
     @org.junit.Test
     public void overStaffMaxLimit() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(16), rate.calculate(new Period(1, 5)));
     }
@@ -419,7 +419,7 @@ public class LawlorCraigTestTask3 {
     // Testing under staff max limit without limit applied, expected fail
     @org.junit.Test(expected = AssertionError.class)
     public void overStaffMaxLimitWithoutLimit() {
-        Rate rate = new Rate(CarParkKind.VISITOR, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
+        Rate rate = new Rate(CarParkKind.STAFF, new BigDecimal(6), new BigDecimal(3), reducedPeriodList, normalPeriodList);
 
         assertEquals(new BigDecimal(24), rate.calculate(new Period(1, 5)));
     }
