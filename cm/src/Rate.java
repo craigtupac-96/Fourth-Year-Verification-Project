@@ -6,6 +6,7 @@
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.math.*;
 
 public class Rate {
     private CarParkKind kind;
@@ -91,11 +92,63 @@ public class Rate {
         }
         return isValid;
     }
+
+
     public BigDecimal calculate(Period periodStay) {
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
-        return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
+        BigDecimal bigDtotal = new BigDecimal(0);
+        BigDecimal returnTotal = new BigDecimal(0);
+
+        MathContext mc = new MathContext(2);
+
+        bigDtotal = (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
                 this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
+
+
+        if(this.kind.toString().equals("VISITOR")){
+            // if greater than 8
+            if(bigDtotal.compareTo(new BigDecimal(8)) > 0){
+                returnTotal = bigDtotal.subtract(new BigDecimal(8), mc);
+                returnTotal = returnTotal.multiply(new BigDecimal(0.5));
+            }
+            // if less than or equal to 8
+            else if(bigDtotal.compareTo(new BigDecimal(8)) <= 0){
+                returnTotal = new BigDecimal(0);
+            }
+        }
+        else if(this.kind.toString().equals("MANAGEMENT")){
+            // if less than 3
+            if(bigDtotal.compareTo(new BigDecimal(3)) < 0){
+                returnTotal = new BigDecimal(3);
+            }
+            else{
+                returnTotal = bigDtotal;
+            }
+        }
+        else if(this.kind.toString().equals("STUDENT")){
+            // if less than 5.50
+            if(bigDtotal.compareTo(new BigDecimal(5.50)) < 0){
+                returnTotal = bigDtotal;
+            }
+            else if(bigDtotal.compareTo(new BigDecimal(5.50)) > 0){
+                BigDecimal discount = new BigDecimal(0);
+
+                discount = bigDtotal.subtract(new BigDecimal(5.50));
+                returnTotal = bigDtotal.subtract(discount.multiply(new BigDecimal(0.25)));
+            }
+        }
+        else if(this.kind.toString().equals("STAFF")){
+            // if greater than 16
+            if(bigDtotal.compareTo(new BigDecimal(16)) > 0) {
+                returnTotal = new BigDecimal(16);
+            }
+            else{
+                returnTotal = bigDtotal;
+            }
+        }
+
+        return returnTotal.setScale(2, RoundingMode.HALF_UP);
     }
 
 }
